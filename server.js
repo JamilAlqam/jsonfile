@@ -115,6 +115,12 @@ app.put("/api/employees/:id", (req, res) => {
       body: req.body,
     });
 
+    // التحقق من البيانات المرسلة
+    if (!req.body.name || !req.body.title || !Array.isArray(req.body.courses)) {
+      console.error("Invalid data format:", req.body);
+      return res.status(400).json({ error: "تنسيق البيانات غير صحيح" });
+    }
+
     const employees = readData();
     const index = employees.findIndex((e) => e.id === parseInt(req.params.id));
 
