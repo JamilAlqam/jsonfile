@@ -55,12 +55,27 @@ if (!fs.existsSync(DATA_FILE)) {
 
 // قراءة البيانات من الملف
 function readData() {
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+  try {
+    console.log("Reading data from file...");
+    const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    console.log("Data read successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error reading data from file:", error);
+    throw error;
+  }
 }
 
 // كتابة البيانات إلى الملف
 function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  try {
+    console.log("Writing data to file...");
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    console.log("Data written successfully:", data);
+  } catch (error) {
+    console.error("Error writing data to file:", error);
+    throw error;
+  }
 }
 
 // الحصول على جميع الموظفين
