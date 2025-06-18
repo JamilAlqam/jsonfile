@@ -58,6 +58,7 @@ app.get('/api/employees', (req, res) => {
         const employees = readData();
         res.json(employees);
     } catch (error) {
+        console.error('Error fetching employees:', error);
         res.status(500).json({ error: 'حدث خطأ أثناء قراءة البيانات' });
     }
 });
@@ -129,5 +130,5 @@ app.delete('/api/employees/:id', (req, res) => {
 
 // تشغيل الخادم
 app.listen(PORT, () => {
-    console.log(`الخادم يعمل على http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
