@@ -96,6 +96,7 @@ app.put("/api/employees/:id", (req, res) => {
     const index = employees.findIndex((e) => e.id === parseInt(req.params.id));
 
     if (index === -1) {
+      console.error(`Employee with ID ${req.params.id} not found.`);
       return res.status(404).json({ error: "الموظف غير موجود" });
     }
 
@@ -103,6 +104,7 @@ app.put("/api/employees/:id", (req, res) => {
     writeData(employees);
     res.json(employees[index]);
   } catch (error) {
+    console.error("Error updating employee:", error);
     res.status(500).json({ error: "حدث خطأ أثناء تحديث الموظف" });
   }
 });
@@ -130,12 +132,16 @@ app.delete("/api/employees/:id", (req, res) => {
     );
 
     if (employees.length === filteredEmployees.length) {
+      console.error(
+        `Employee with ID ${req.params.id} not found for deletion.`
+      );
       return res.status(404).json({ error: "الموظف غير موجود" });
     }
 
     writeData(filteredEmployees);
     res.json({ message: "تم حذف الموظف بنجاح" });
   } catch (error) {
+    console.error("Error deleting employee:", error);
     res.status(500).json({ error: "حدث خطأ أثناء حذف الموظف" });
   }
 });
