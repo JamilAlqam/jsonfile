@@ -53,7 +53,7 @@ if (!fs.existsSync(DATA_FILE)) {
   console.log(`Data file found at path: ${DATA_FILE}`);
 }
 
-// قراءة البيانات من الملف
+// تحسين التعامل مع ملف البيانات
 function readData() {
   try {
     console.log("Reading data from file...");
@@ -62,11 +62,10 @@ function readData() {
     return data;
   } catch (error) {
     console.error("Error reading data from file:", error);
-    throw error;
+    throw new Error("تعذر قراءة البيانات من الملف");
   }
 }
 
-// كتابة البيانات إلى الملف
 function writeData(data) {
   try {
     console.log("Writing data to file...");
@@ -74,7 +73,7 @@ function writeData(data) {
     console.log("Data written successfully:", data);
   } catch (error) {
     console.error("Error writing data to file:", error);
-    throw error;
+    throw new Error("تعذر كتابة البيانات إلى الملف");
   }
 }
 
@@ -114,12 +113,6 @@ app.put("/api/employees/:id", (req, res) => {
       id: req.params.id,
       body: req.body,
     });
-
-    // التحقق من البيانات المرسلة
-    if (!req.body.name || !req.body.title || !Array.isArray(req.body.courses)) {
-      console.error("Invalid data format:", req.body);
-      return res.status(400).json({ error: "تنسيق البيانات غير صحيح" });
-    }
 
     const employees = readData();
     const index = employees.findIndex((e) => e.id === parseInt(req.params.id));
@@ -165,9 +158,7 @@ app.delete("/api/employees/:id", (req, res) => {
     );
 
     if (employees.length === filteredEmployees.length) {
-      console.error(
-        `Employee with ID ${req.params.id} not found for deletion.`
-      );
+      console.error(`Employee with ID ${req.params.id} not found for deletion.`);
       return res.status(404).json({ error: "الموظف غير موجود" });
     }
 
