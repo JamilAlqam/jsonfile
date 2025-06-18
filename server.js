@@ -49,6 +49,8 @@ if (!fs.existsSync(DATA_FILE)) {
       2
     )
   );
+} else {
+  console.log(`Data file found at path: ${DATA_FILE}`);
 }
 
 // قراءة البيانات من الملف
@@ -64,6 +66,7 @@ function writeData(data) {
 // الحصول على جميع الموظفين
 app.get("/api/employees", (req, res) => {
   try {
+    console.log("Fetching employees from data file...");
     const employees = readData();
     res.json(employees);
   } catch (error) {
