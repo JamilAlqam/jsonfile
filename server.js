@@ -95,8 +95,10 @@ app.post("/api/employees", (req, res) => {
 // تحديث موظف موجود
 app.put("/api/employees/:id", (req, res) => {
   try {
-    console.log("Received update request for ID:", req.params.id);
-    console.log("Request body:", req.body);
+    console.log("Update request received:", {
+      id: req.params.id,
+      body: req.body,
+    });
 
     const employees = readData();
     const index = employees.findIndex((e) => e.id === parseInt(req.params.id));
@@ -132,7 +134,9 @@ app.get("/api/employees/:id", (req, res) => {
 // حذف موظف
 app.delete("/api/employees/:id", (req, res) => {
   try {
-    console.log("Received delete request for ID:", req.params.id);
+    console.log("Delete request received:", {
+      id: req.params.id,
+    });
 
     const employees = readData();
     const filteredEmployees = employees.filter(
@@ -140,7 +144,9 @@ app.delete("/api/employees/:id", (req, res) => {
     );
 
     if (employees.length === filteredEmployees.length) {
-      console.error(`Employee with ID ${req.params.id} not found for deletion.`);
+      console.error(
+        `Employee with ID ${req.params.id} not found for deletion.`
+      );
       return res.status(404).json({ error: "الموظف غير موجود" });
     }
 
